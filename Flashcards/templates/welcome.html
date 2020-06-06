@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{%block title%}Welcome{% endblock %}
+
+{% block content %}
+        <h1>Welcome to my page!</h1>
+        <p>
+            This is the demo application for the course
+            <em>Getting Started with Flash</em>
+            on <a href="https://blabla.com">Bla website </a>
+        </p>
+        <h2>Flash Cards</h2>
+        <ul>
+            {% for card in cards%}
+            <li>
+                <a href="{{url_for('card_view', index=loop.index0) }}">
+                    {{ card.question }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+{% endblock %}
