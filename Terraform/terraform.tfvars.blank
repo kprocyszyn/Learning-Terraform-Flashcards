@@ -1,0 +1,10 @@
+#### Azure Credentials ###
+arm_subscription_id = ""
+arm_principal = ""
+arm_password = ""
+tenant_id = ""
+
+
+### VM Credentials ###
+vm_username = ""
+vm_password = ""
