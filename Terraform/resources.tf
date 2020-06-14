@@ -13,7 +13,7 @@ provider "azurerm" {
 #RG#
 resource "azurerm_resource_group" "Flashcards" {
   name     = "Flashcards"
-  location = "westus"
+  location = "eastus"
 
   tags = {
     environment = "Terraform Demo"
@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "Flashcards" {
 resource "azurerm_virtual_network" "FlashcardsNetwork" {
   name                = "FlashcardsNet"
   address_space       = ["10.0.0.0/16"]
-  location            = "westus"
+  location            = azurerm_resource_group.Flashcards.location
   resource_group_name = azurerm_resource_group.Flashcards.name
 }
 
@@ -38,7 +38,7 @@ resource "azurerm_subnet" "FlashcardsSubnet" {
 
 resource "azurerm_public_ip" "FlashcardsPublicIp" {
   name                = "FlashcardsPublicIp"
-  location            = "westus"
+  location            = azurerm_resource_group.Flashcards.location
   resource_group_name = azurerm_resource_group.Flashcards.name
   allocation_method   = "Dynamic"
 
@@ -48,7 +48,7 @@ resource "azurerm_public_ip" "FlashcardsPublicIp" {
 }
 resource "azurerm_network_security_group" "FlashcardsNSG" {
   name                = "FlashcardsNSG"
-  location            = "westus"
+  location            = azurerm_resource_group.Flashcards.location
   resource_group_name = azurerm_resource_group.Flashcards.name
 
   security_rule {
@@ -82,7 +82,7 @@ resource "azurerm_network_security_group" "FlashcardsNSG" {
 
 resource "azurerm_network_interface" "FlashcardsNIC" {
   name                = "FlashcardsNIC"
-  location            = "westus"
+  location            = azurerm_resource_group.Flashcards.location
   resource_group_name = azurerm_resource_group.Flashcards.name
 
   ip_configuration {
@@ -115,7 +115,7 @@ resource "random_id" "randomId" {
 resource "azurerm_storage_account" "FlashcardsStorageAccount" {
   name                     = "diag${random_id.randomId.hex}"
   resource_group_name      = azurerm_resource_group.Flashcards.name
-  location                 = "westus"
+  location                 = azurerm_resource_group.Flashcards.location
   account_replication_type = "LRS"
   account_tier             = "Standard"
 
